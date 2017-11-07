@@ -15,6 +15,7 @@ use SmsGatewayBundle\Drivers\CallFireSMS;
 use SmsGatewayBundle\Drivers\EZTextingSMS;
 use SmsGatewayBundle\Drivers\FlowrouteSMS;
 use SmsGatewayBundle\Drivers\LabsMobileSMS;
+use SmsGatewayBundle\Drivers\JawalySMS;
 
 class DriverManager extends Manager
 {
@@ -63,6 +64,24 @@ class DriverManager extends Manager
             new Client(),
             $config['app_login'],
             $config['app_password']
+        );
+
+        return $provider;
+    }
+
+    /**
+     * Create an instance of the Jawally driver.
+     *
+     * @return JawalySMS
+     */
+    protected function createJawalyDriver()
+    {
+        $config = $this->app['config']->get('sms.jawaly', []);
+
+        $provider = new JawalySMS(
+            $config['username'],
+            $config['api_secret'],
+            $config['from']
         );
 
         return $provider;
